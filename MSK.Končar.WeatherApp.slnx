@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="frontend/frontend.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="MSK.Končar.WeatherApp.AppHost/MSK.Končar.WeatherApp.AppHost.csproj" />
+  <Project Path="MSK.Končar.WeatherApp.Server/MSK.Končar.WeatherApp.Server.csproj" />
+</Solution>
