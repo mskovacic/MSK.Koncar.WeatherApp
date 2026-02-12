@@ -1,31 +1,31 @@
 /* CSS Variables for theming */
 :root {
-  --bg-gradient-start: #1a1a2e;
-  --bg-gradient-end: #16213e;
-  --card-bg: rgba(30, 30, 46, 0.95);
-  --card-hover-shadow: rgba(0, 0, 0, 0.3);
-  --text-primary: #ffffff;
-  --text-secondary: #e2e8f0;
-  --text-tertiary: #cbd5e0;
-  --accent-gradient-start: #7c92f5;
-  --accent-gradient-end: #8b5ecf;
-  --weather-card-bg: rgba(45, 45, 60, 0.8);
-  --weather-card-border: rgba(255, 255, 255, 0.1);
-  --section-title-color: #f7fafc;
-  --date-color: #cbd5e0;
-  --summary-color: #f7fafc;
-  --temp-unit-color: #e2e8f0;
-  --divider-color: #4a5568;
-  --error-bg: rgba(220, 38, 38, 0.1);
-  --error-border: #ef4444;
-  --error-text: #fca5a5;
-  --skeleton-bg-1: rgba(255, 255, 255, 0.05);
-  --skeleton-bg-2: rgba(255, 255, 255, 0.1);
-  --tile-min-height: 120px;
-  --tile-gap: 0.75rem;
-  --cta-height: 3rem;
-  --card-inner-gap: 1rem;
-  --focus-color: #a78bfa;
+    --bg-gradient-start: #1a1a2e;
+    --bg-gradient-end: #16213e;
+    --card-bg: rgba(30, 30, 46, 0.95);
+    --card-hover-shadow: rgba(0, 0, 0, 0.3);
+    --text-primary: #ffffff;
+    --text-secondary: #e2e8f0;
+    --text-tertiary: #cbd5e0;
+    --accent-gradient-start: #7c92f5;
+    --accent-gradient-end: #8b5ecf;
+    --weather-card-bg: rgba(45, 45, 60, 0.8);
+    --weather-card-border: rgba(255, 255, 255, 0.1);
+    --section-title-color: #f7fafc;
+    --date-color: #cbd5e0;
+    --summary-color: #f7fafc;
+    --temp-unit-color: #e2e8f0;
+    --divider-color: #4a5568;
+    --error-bg: rgba(220, 38, 38, 0.1);
+    --error-border: #ef4444;
+    --error-text: #fca5a5;
+    --skeleton-bg-1: rgba(255, 255, 255, 0.05);
+    --skeleton-bg-2: rgba(255, 255, 255, 0.1);
+    --tile-min-height: 120px;
+    --tile-gap: 0.75rem;
+    --cta-height: 3rem;
+    --card-inner-gap: 1rem;
+    --focus-color: #a78bfa;
 }
 
 @media (prefers-color-scheme: light) {

@@ -1,19 +1,35 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MSK.Končar.WeatherApp.Server.Endpoints;
+using OpenWeatherMap;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add service defaults & Aspire client integrations.
 builder.AddServiceDefaults();
 
-builder.AddNpgsqlDbContext<ApplicationDBContext>("postgresdb");
+builder.AddNpgsqlDbContext<ApplicationDBContext>(
+    "postgresdb",
+    null,
+    options => options.EnableDetailedErrors().EnableSensitiveDataLogging());
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>()
     .AddEntityFrameworkStores<ApplicationDBContext>();
 
 builder.Services.AddAuthorization();
+
+builder.Services.AddSingleton<IOpenWeatherMapService>(x =>
+{
+    var logger = x.GetRequiredService<ILogger<OpenWeatherMapService>>();
+    var options = new OpenWeatherMapOptions
+    {
+        ApiKey = builder.Configuration["OpenWeatherMap:ApiKey"] ?? throw new InvalidOperationException("OpenWeatherMap API key is not configured."),
+        Language = "hr"
+    };
+    return new OpenWeatherMapService(logger, options);
+});
 
 // Add services to the container.
 builder.Services.AddProblemDetails();
@@ -41,22 +57,8 @@ app.MapIdentityApi<IdentityUser>();
 
 app.MapRazorPages();
 
-string[] summaries = ["Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"];
-
-var api = app.MapGroup("/api");
-api.MapGet("weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+var api = app.MapGroup("/api").RequireAuthorization();
+api.MapWeatherEndpoints();
 
 app.MapPost("/logout", async (SignInManager<IdentityUser> signInManager,
     [FromBody] object empty) =>
