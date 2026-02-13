@@ -59,6 +59,7 @@ app.MapRazorPages();
 
 var api = app.MapGroup("/api").RequireAuthorization();
 api.MapWeatherEndpoints();
+api.MapStatisticsEndpoints();
 
 app.MapPost("/logout", async (SignInManager<IdentityUser> signInManager,
     [FromBody] object empty) =>

@@ -9,6 +9,7 @@
     public class ForecastResponse
     {
         public required string City { get; set; }
+        public required string ForecastCityName { get; set; }
         public required WeatherResponse[] Forecast { get; set; }
     }
 

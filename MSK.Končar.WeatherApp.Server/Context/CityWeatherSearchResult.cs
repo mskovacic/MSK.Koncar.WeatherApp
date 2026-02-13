@@ -8,6 +8,7 @@
         public required double TemperatureCelsius { get; set; }
         public required DateTime DateTime { get; set; }
         public required string Description { get; set; }
+        public required int WeatherConditionExternalId { get; set; }
         public required string IconId { get; set; }
     }
 }

@@ -14,6 +14,8 @@ namespace MSK.Končar.WeatherApp.Server.Context
 
         public City City { get; set; } = null!;
 
-        public CityWeatherSearchResult[] SearchResults { get; set; } = [];
+        public DateTime SearchDateTime { get; set; } = DateTime.UtcNow;
+
+        public ICollection<CityWeatherSearchResult> SearchResults { get; set; } = [];
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MSK.Končar.WeatherApp.Server.Models.Responses;
 using OpenWeatherMap;
+using System.Security.Claims;
 
 namespace MSK.Končar.WeatherApp.Server.Endpoints
 {
@@ -24,7 +25,7 @@ namespace MSK.Končar.WeatherApp.Server.Endpoints
                 return Results.InternalServerError();
             }
 
-            var userId = context.User.Identity.Name;
+            var userId = context.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
             var weatherInfo = weather.Weather.FirstOrDefault();
             var response = new CurrentWeatherResponse
@@ -60,7 +61,7 @@ namespace MSK.Končar.WeatherApp.Server.Endpoints
                 return Results.InternalServerError();
             }
 
-            var userId = context.User.Identity?.Name ?? throw new InvalidOperationException("User is not authenticated.");
+            var userId = context.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
             dBContext.Add(new CityWeatherSearch
             {
                 Id = default,
@@ -76,7 +77,8 @@ namespace MSK.Končar.WeatherApp.Server.Endpoints
                         TemperatureCelsius = item.Main.Temperature.DegreesCelsius,
                         Description = weatherCondition?.Description ?? "No description",
                         IconId = weatherCondition?.IconId ?? "sun_question",
-                        CityWeatherSearchId = default
+                        CityWeatherSearchId = default,
+                        WeatherConditionExternalId = weatherCondition?.Id ?? 0
                     };
                 }).ToArray()
             });
@@ -84,7 +86,8 @@ namespace MSK.Končar.WeatherApp.Server.Endpoints
 
             var response = new ForecastResponse
             {
-                City = forecast.City.Name,
+                City = city.Name,
+                ForecastCityName = forecast.City.Name,
                 Forecast = forecast.Items.Select(item =>
                 {
                     var weatherCondition = item.WeatherConditions.FirstOrDefault();
