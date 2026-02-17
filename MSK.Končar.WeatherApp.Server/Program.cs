@@ -15,8 +15,10 @@ builder.AddNpgsqlDbContext<ApplicationDBContext>(
     options => options.EnableDetailedErrors().EnableSensitiveDataLogging());
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>()
+builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<ApplicationDBContext>();
+
+//builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
 
 builder.Services.AddAuthorization();
 
@@ -53,9 +55,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapIdentityApi<IdentityUser>();
-
-app.MapRazorPages();
+app.MapGroup("/identity").MapIdentityApi<IdentityUser>();
 
 var api = app.MapGroup("/api").RequireAuthorization();
 api.MapWeatherEndpoints();

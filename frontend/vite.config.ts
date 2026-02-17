@@ -14,13 +14,17 @@ export default defineConfig({
             "@": path.resolve(__dirname, "./src"),
         }
     },
-  server: {
-    proxy: {
-      // Proxy API calls to the app service
-      '/api': {
-        target: process.env.SERVER_HTTPS || process.env.SERVER_HTTP,
-        changeOrigin: true
-      }
+    server: {
+        proxy: {
+            // Proxy API calls to the app service
+            '/api': {
+                target: process.env.SERVER_HTTPS || process.env.SERVER_HTTP,
+                changeOrigin: true
+            },
+            '/identity': {
+                target: process.env.SERVER_HTTPS || process.env.SERVER_HTTP,
+                changeOrigin: true
+            }
+        }
     }
-  }
 })
