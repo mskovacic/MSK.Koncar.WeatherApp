@@ -16,7 +16,7 @@ export default function CurrentWeatherWidget({ lattitude, longitude }: { lattitu
     const [weatherData, setWeatherData] = useState<WeatherResponse | null>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
-    const { token } = useAuth();
+    const { token } = useAuth()
 
 
     const fetchWeatherForecast = async () => {
@@ -54,12 +54,12 @@ export default function CurrentWeatherWidget({ lattitude, longitude }: { lattitu
 
     return (
         <>
-            <div>
+            <div style={{ border: "1px solid black", borderRadius: "10px"} }>
                 <div>
                     {weatherData?.city}
                 </div>
                 <div>
-                    {weatherData?.weather.temperatureCelsius}
+                    {weatherData?.weather.temperatureCelsius} °C
                 </div>
                 <img src={ weatherData?.weather.iconURL}/>
                 <div>

@@ -2,10 +2,16 @@ import { useState, useEffect } from "react";
 import CurrentWeatherWidget from "../components/CurrentWeatherWidget";
 import SmallContainerWithBackground from "../components/SmallContainerWithBackground";
 import Navbar from "../components/Navbar";
+import { useAuth } from "../auth/AuthContext";
 
 export default function Home() {
     const [position, setPosition] = useState<GeolocationCoordinates | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const [value, setValue] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [response, setResponse] = useState<string | null>(null);
+    const [formError, setFormError] = useState<string | null>(null);
+    const { token } = useAuth();
 
     useEffect(() => {
         if (!("geolocation" in navigator)) {
@@ -31,6 +37,34 @@ export default function Home() {
         };
     }, []);
 
+    const handleRequest = async () => {
+        if (!value.trim()) return;
+
+        setLoading(true);
+        setFormError(null);
+        setResponse(null);
+
+        try {
+            const res = await fetch(`/api/weather/forecast?cityId=${value}`, {
+                headers: {
+                    'Authentication': `Bearer ${token}`
+                }
+            });
+
+            if (!res.ok) {
+                throw new Error("Request failed");
+            }
+
+            const data = await res.json();
+
+            setResponse(JSON.stringify(data, null, 2));
+        } catch (err) {
+            setFormError((err as Error).message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <>
             <Navbar />
@@ -46,7 +80,24 @@ export default function Home() {
                     <p className="text-red-500">{error}</p>
                 )}
 
+                <br />
 
+                <div style={{ border: "1px solid black", borderRadius: "10px" }}>
+                    <input
+                        value={value}
+                        onChange={(e) => setValue(e.target.value)}
+                    />
+
+                    <button
+                        onClick={handleRequest}
+                        disabled={loading}
+                    >
+                        {loading ? "Sending..." : "Search"}
+                    </button>
+
+                    {error && <p>{formError}</p>}
+                    {response && <pre>{response}</pre>}
+                </div>
             </SmallContainerWithBackground>
 
         </>)

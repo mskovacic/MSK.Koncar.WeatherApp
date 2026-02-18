@@ -18,7 +18,7 @@ namespace MSK.Končar.WeatherApp.Server.Endpoints
             ApplicationDBContext dBContext,
             HttpContext context)
         {
-            var userId = context.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var userId = context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? dBContext.Users.First().Id;
 
             var topCities = dBContext.Searches
                 .Where(s => s.UserId == userId)
