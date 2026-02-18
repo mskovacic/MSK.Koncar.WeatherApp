@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 type AuthContextType = {
     user: string | null
@@ -19,21 +19,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         const storedUser = localStorage.getItem("user");
         const accessToken = localStorage.getItem("token");
         if (storedUser && accessToken) {
-            setUser(storedUser)
             setToken(accessToken)
+            setUser(storedUser) 
         }
     }, [])
 
     const login = (username: string, token: string) => {
-        localStorage.setItem("user", username);
-        localStorage.setItem("token", token);
+        localStorage.setItem("user", username)
+        localStorage.setItem("token", token)
 
-        setUser(username);
+        setUser(username)
+        setToken(token)
     };
 
     const logout = () => {
-        localStorage.removeItem("user");
-        setUser(null);
+        localStorage.removeItem("user")
+        localStorage.removeItem("token")
+        setUser(null)
+        setToken(null)
     };
 
     return (

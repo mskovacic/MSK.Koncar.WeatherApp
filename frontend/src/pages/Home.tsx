@@ -7,8 +7,6 @@ export default function Home() {
     const [position, setPosition] = useState<GeolocationCoordinates | null>(null);
     const [error, setError] = useState<string | null>(null);
 
-    console.log({ env: import.meta.env })
-
     useEffect(() => {
         if (!("geolocation" in navigator)) {
             setError("Geolocation is not supported by your browser.");

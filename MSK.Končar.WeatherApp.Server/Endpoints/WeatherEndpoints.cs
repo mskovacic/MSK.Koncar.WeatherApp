@@ -25,8 +25,6 @@ namespace MSK.Končar.WeatherApp.Server.Endpoints
                 return Results.InternalServerError();
             }
 
-            var userId = context.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-
             var weatherInfo = weather.Weather.FirstOrDefault();
             var response = new CurrentWeatherResponse
             {
@@ -61,7 +59,7 @@ namespace MSK.Končar.WeatherApp.Server.Endpoints
                 return Results.InternalServerError();
             }
 
-            var userId = context.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var userId = context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? dBContext.Users.First().Id;
             dBContext.Add(new CityWeatherSearch
             {
                 Id = default,

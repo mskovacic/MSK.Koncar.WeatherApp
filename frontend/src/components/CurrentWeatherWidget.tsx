@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Spinner } from "./ui/spinner";
 import { useAuth } from "../auth/AuthContext";
+import { Button } from "./ui/button";
 
 interface WeatherResponse {
     city: string
@@ -48,7 +49,7 @@ export default function CurrentWeatherWidget({ lattitude, longitude }: { lattitu
     }
 
     if (error) {
-        return (<>Error</>)
+        return (<>Error <Button onClick={async () => await fetchWeatherForecast() }>Refresh</Button></>)
     }
 
     return (
@@ -64,9 +65,6 @@ export default function CurrentWeatherWidget({ lattitude, longitude }: { lattitu
                 <div>
                     {weatherData?.weather.description}
                 </div>
-            </div>
-            
-
-            
+            </div> 
         </>)
 }

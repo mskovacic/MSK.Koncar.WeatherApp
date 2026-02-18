@@ -57,7 +57,7 @@ app.UseAuthorization();
 
 app.MapGroup("/identity").MapIdentityApi<IdentityUser>();
 
-var api = app.MapGroup("/api").RequireAuthorization();
+var api = app.MapGroup("/api"); //.RequireAuthorization();
 api.MapWeatherEndpoints();
 api.MapStatisticsEndpoints();
 
